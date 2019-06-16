@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>    
+        let obj={};
+        Object.defineProperty(obj,"schook",{
+            // value:"zfy",
+            configurable:true,//是否可以删除，默认不行
+            //  writable:true,//是否可以修改，默认不可以,不能喝get set共存
+             enumerable:true,//是否可以便利，默认否，
+             get(){
+                 console.log("get")
+                 return 100;
+             },
+             set(value){
+                console.log("set::"+value);
+             }
+        });
+        //没有设置configurable之前无法操作
+        // delete obj.schook;
+        // obj.schook="change"
+        //  console.log(obj);
+        // for (const key in obj) {
+        //     if (obj.hasOwnProperty(key)) {
+        //         //const element = obj[key];
+        //         console.log(obj[key])
+        //     }
+        // }
+        obj.schook="999";
+
+
+
+    </script>
+</body>
+</html>

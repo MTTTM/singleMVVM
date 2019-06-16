@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{a}}</p>
+        <p>{{b.b}}</p>
+    </div>
+    <script src="./mvvm01.js"></script>
+    <script>
+    let vue =new Zhufeng({
+        el:"#app",
+        data:{
+            a:1,
+            b:{
+                b:"bbbb"
+            }
+        }
+    })
+    console.log(vue.a.a,vue)
+    setTimeout(()=>{
+        vue.a.a=300;
+        console.log(vue.a.a)
+    },1000)
+    </script>
+</body>
+</html>
