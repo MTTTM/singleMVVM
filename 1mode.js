@@ -5,11 +5,11 @@
      this.subs=[];
  }
  //订阅
- Dep.prototype.addSub=function(){
+ Dep.prototype.addSub=function(sub){
     this.subs.push(sub);
  };
  Dep.prototype.notify=function(){
-    this.subs.forEach(sub=>sub());
+    this.subs.forEach(sub=>sub.update());
  };
 
  //监听者,其实他就是发布数组里面的函数
@@ -19,3 +19,13 @@
  Wather.prototype.update=function(){
     this.fn();
  };
+ //监听函数
+ let  watcher=new Wather(function(){
+    console.log("1");
+ });
+
+ let dep=new Dep();
+ dep.addSub(watcher);
+ console.log(dep.subs);
+ dep.notify();
+

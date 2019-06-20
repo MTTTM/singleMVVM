@@ -10,7 +10,7 @@ function Zhufeng(options={}){
                 return this._data[key];
             },
             set(newVal){
-              
+              this._data[key]=newVal;
             }
         })
     }
@@ -43,6 +43,12 @@ function Compile(el,vm){
                 //第一次之后读取val而不是vm,这样才能确保data能一层层的获取
                 val=val[k];
             })
+            //============新增地方:数据修改时候同步到dom的地方
+            new Wather(vm,RegExp.$1,function(newVal){
+                //这个Wather里面吧Dep的对象指向了自己
+                console.log("wather",RegExp.$1)
+                node.textContent=text.replace(reg,newVal);
+            })
             node.textContent=text.replace(reg,val);
 
         }
@@ -66,22 +72,31 @@ function Compile(el,vm){
 
 //观察对象给对象正价Object.DefineProperty
 function Observe(data){
+    //新增====就一个发布器
+    let dep=new Dep();
  for(let key in data){
      let val=data[key];
     //通过data属性object.defineProperty的方式定义属性
-  
     observe(val);
     Object.defineProperty(data,key,{
         enumerable:true,
         get(){
+            //====新增 
+            Dep.target&&dep.addSub(Dep.target);
+            console.log("get",dep)
             return val;
         },
         set(newVal){
+            console.log("修改")
             //更改值得时候,如果同样，不做处理
             if(newVal===val){
                 return;
             }
+            
             val=newVal;
+            //防止赋值一个对象
+            observe(newVal);
+            dep.notify();//让所有watcher的 update函数执行
         }
     })
  }
@@ -96,9 +111,3 @@ function observe(data){
     return new Observe(data);
 }   
 
-
-
-
-
-
- 
