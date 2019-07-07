@@ -27,7 +27,7 @@ function initComputed(){
     console.log('Object.keys(computed)',Object.keys(computed))
     //为什么这里能够监听到依赖的变量变动后当前computed属性就变动呢，我这里指的的是非初始化时候的第一次获取
     //暂时没明白
-    //Compile 里面有一个属于c的wather
+    //Compile 里面有一个属于c的wather,只有有任意一个变量变动都会触发所有订阅者！！（已经解答疑惑）
     Object.keys(computed).forEach(function(key){
         Object.defineProperty(vm,key,{
             get:typeof computed[key]==='function'?computed[key]:computed[key].get,
