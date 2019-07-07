@@ -16,6 +16,7 @@ function Zhufeng(options={}){
     }
     //新增computed
     initComputed.call(this);
+    //为什么initComputed要放在Compile前面呢，这是有讲究的
     Compile(options.el,this);
 
 }
@@ -26,6 +27,7 @@ function initComputed(){
     console.log('Object.keys(computed)',Object.keys(computed))
     //为什么这里能够监听到依赖的变量变动后当前computed属性就变动呢，我这里指的的是非初始化时候的第一次获取
     //暂时没明白
+    //Compile 里面有一个属于c的wather
     Object.keys(computed).forEach(function(key){
         Object.defineProperty(vm,key,{
             get:typeof computed[key]==='function'?computed[key]:computed[key].get,
@@ -65,6 +67,9 @@ function Compile(el,vm){
             new Wather(vm,RegExp.$1,function(newVal){
                 //这个Wather里面吧Dep的对象指向了自己
                 console.log("wather",RegExp.$1)
+                if(RegExp.$1=='c'){
+                    console.log("c======",newVal)
+                }
                 node.textContent=text.replace(reg,newVal);
             })
             node.textContent=text.replace(reg,val);
